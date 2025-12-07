@@ -20,7 +20,7 @@ function initNavigation() {
     const navToggle = document.getElementById('navToggle');
     const navMenu = document.getElementById('navMenu');
     const navLinks = document.querySelectorAll('.nav-link');
-    
+
     // Sticky navbar on scroll
     window.addEventListener('scroll', () => {
         if (window.scrollY > 50) {
@@ -29,13 +29,13 @@ function initNavigation() {
             navbar.classList.remove('scrolled');
         }
     });
-    
+
     // Mobile menu toggle
     navToggle.addEventListener('click', () => {
         navToggle.classList.toggle('active');
         navMenu.classList.toggle('active');
     });
-    
+
     // Close mobile menu on link click
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
@@ -43,17 +43,17 @@ function initNavigation() {
             navMenu.classList.remove('active');
         });
     });
-    
+
     // Active link on scroll
     const sections = document.querySelectorAll('section[id]');
     window.addEventListener('scroll', () => {
         const scrollY = window.pageYOffset;
-        
+
         sections.forEach(section => {
             const sectionHeight = section.offsetHeight;
             const sectionTop = section.offsetTop - 100;
             const sectionId = section.getAttribute('id');
-            
+
             if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
                 document.querySelector(`.nav-link[href="#${sectionId}"]`)?.classList.add('active');
             } else {
@@ -67,16 +67,16 @@ function initNavigation() {
 function initThemeToggle() {
     const themeToggle = document.getElementById('themeToggle');
     const html = document.documentElement;
-    
+
     // Check for saved theme preference or default to light mode
     const currentTheme = localStorage.getItem('theme') || 'light';
     html.setAttribute('data-theme', currentTheme);
     updateThemeIcon(currentTheme);
-    
+
     themeToggle.addEventListener('click', () => {
         const theme = html.getAttribute('data-theme');
         const newTheme = theme === 'light' ? 'dark' : 'light';
-        
+
         html.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
         updateThemeIcon(newTheme);
@@ -95,7 +95,7 @@ function initAnimations() {
     const observerOptions = {
         threshold: 0.5
     };
-    
+
     const statsObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -104,9 +104,9 @@ function initAnimations() {
             }
         });
     }, observerOptions);
-    
+
     stats.forEach(stat => statsObserver.observe(stat));
-    
+
     // Animate skill bars
     const skillBars = document.querySelectorAll('.progress-bar');
     const skillObserver = new IntersectionObserver((entries) => {
@@ -118,7 +118,7 @@ function initAnimations() {
             }
         });
     }, observerOptions);
-    
+
     skillBars.forEach(bar => skillObserver.observe(bar));
 }
 
@@ -127,7 +127,7 @@ function animateCounter(element) {
     const duration = 2000;
     const increment = target / (duration / 16);
     let current = 0;
-    
+
     const timer = setInterval(() => {
         current += increment;
         if (current >= target) {
@@ -152,21 +152,21 @@ function formatNumber(num) {
 function loadProjects() {
     const projectsGrid = document.getElementById('projectsGrid');
     const filterBtns = document.querySelectorAll('.filter-btn');
-    
+
     // Render projects
     renderProjects(portfolioData.projects);
-    
+
     // Filter functionality
     filterBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             filterBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            
+
             const filter = btn.getAttribute('data-filter');
-            const filtered = filter === 'all' 
-                ? portfolioData.projects 
+            const filtered = filter === 'all'
+                ? portfolioData.projects
                 : portfolioData.projects.filter(p => p.category.includes(filter));
-            
+
             renderProjects(filtered);
         });
     });
@@ -232,19 +232,19 @@ function loadBlog() {
     const blogGrid = document.getElementById('blogGrid');
     const searchInput = document.getElementById('blogSearch');
     const categoryBtns = document.querySelectorAll('.category-btn');
-    
+
     let currentCategory = 'all';
     let searchTerm = '';
-    
+
     // Render initial posts
     renderBlogPosts(portfolioData.blogPosts);
-    
+
     // Search functionality
     searchInput.addEventListener('input', (e) => {
         searchTerm = e.target.value.toLowerCase();
         filterBlog();
     });
-    
+
     // Category filter
     categoryBtns.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -254,35 +254,35 @@ function loadBlog() {
             filterBlog();
         });
     });
-    
+
     function filterBlog() {
         let filtered = portfolioData.blogPosts;
-        
+
         // Filter by category
         if (currentCategory !== 'all') {
             filtered = filtered.filter(post => post.category === currentCategory);
         }
-        
+
         // Filter by search term
         if (searchTerm) {
-            filtered = filtered.filter(post => 
+            filtered = filtered.filter(post =>
                 post.title.toLowerCase().includes(searchTerm) ||
                 post.excerpt.toLowerCase().includes(searchTerm)
             );
         }
-        
+
         renderBlogPosts(filtered);
     }
 }
 
 function renderBlogPosts(posts) {
     const blogGrid = document.getElementById('blogGrid');
-    
+
     if (posts.length === 0) {
         blogGrid.innerHTML = '<p style="text-align: center; grid-column: 1/-1;">No articles found.</p>';
         return;
     }
-    
+
     blogGrid.innerHTML = posts.map(post => `
         <article class="blog-card">
             <div class="blog-image">
@@ -312,7 +312,7 @@ function formatDate(dateString) {
 function loadTestimonials() {
     const slider = document.getElementById('testimonialsSlider');
     let currentIndex = 0;
-    
+
     function renderTestimonial(index) {
         const testimonial = portfolioData.testimonials[index];
         slider.innerHTML = `
@@ -333,9 +333,9 @@ function loadTestimonials() {
             </div>
         `;
     }
-    
+
     renderTestimonial(currentIndex);
-    
+
     // Auto-rotate testimonials
     setInterval(() => {
         currentIndex = (currentIndex + 1) % portfolioData.testimonials.length;
@@ -350,29 +350,23 @@ function initContactForm() {
     const submitBtn = document.getElementById('submitBtn');
     const btnText = submitBtn.querySelector('.btn-text');
     const btnLoader = submitBtn.querySelector('.btn-loader');
-    
+
     form.addEventListener('submit', (e) => {
         e.preventDefault();
-        
-        const formData = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            subject: document.getElementById('subject').value,
-            message: document.getElementById('message').value
-        };
-        
+
+        const formData = new FormData(form);
+
         // Show loading state
         submitBtn.disabled = true;
         btnText.style.display = 'none';
         btnLoader.style.display = 'inline-block';
         formMessage.style.display = 'none';
-    
-        // Example with Formspree:
+
         fetch('https://formspree.io/f/mdkqdqpg', {
             method: 'POST',
-            body: JSON.stringify(formData),
-            headers: { 'Content-Type': 'application/json' }
-        }).then(response => {
+            body: formData
+        })
+        .then(response => {
             if (response.ok) {
                 formMessage.innerHTML = '<i class="fas fa-check-circle"></i> Message sent successfully!';
                 formMessage.className = 'form-message success';
@@ -383,13 +377,16 @@ function initContactForm() {
                 formMessage.className = 'form-message error';
                 formMessage.style.display = 'block';
             }
+
             submitBtn.disabled = false;
             btnText.style.display = 'inline-block';
             btnLoader.style.display = 'none';
-        }).catch(error => {
+        })
+        .catch(() => {
             formMessage.innerHTML = '<i class="fas fa-exclamation-circle"></i> An error occurred. Please try again.';
             formMessage.className = 'form-message error';
             formMessage.style.display = 'block';
+
             submitBtn.disabled = false;
             btnText.style.display = 'inline-block';
             btnLoader.style.display = 'none';
@@ -397,10 +394,11 @@ function initContactForm() {
     });
 }
 
+
 // ===== Back to Top Button =====
 function initBackToTop() {
     const backToTop = document.getElementById('backToTop');
-    
+
     window.addEventListener('scroll', () => {
         if (window.scrollY > 300) {
             backToTop.classList.add('visible');
@@ -408,7 +406,7 @@ function initBackToTop() {
             backToTop.classList.remove('visible');
         }
     });
-    
+
     backToTop.addEventListener('click', () => {
         window.scrollTo({
             top: 0,
@@ -440,7 +438,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-    
+
     // Close modal on ESC key
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
@@ -461,7 +459,7 @@ if ('IntersectionObserver' in window) {
             }
         });
     });
-    
+
     document.querySelectorAll('img[loading="lazy"]').forEach(img => {
         imageObserver.observe(img);
     });

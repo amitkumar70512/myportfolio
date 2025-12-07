@@ -557,8 +557,9 @@
                         </a>
                     </div>
                 </div>
-            
+
                 <form class="contact-form" id="contactForm">
+                    <div id="formMessage" class="form-message"></div>
                     <div class="form-group">
                         <input type="text" id="name" name="name" placeholder="Your Name" required>
                     </div>
@@ -571,7 +572,7 @@
                     <div class="form-group">
                         <textarea id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
                         <span class="btn-text">Send Message</span>
                         <span class="btn-loader" style="display: none;">
                             <i class="fas fa-spinner fa-spin"></i> Sending...
