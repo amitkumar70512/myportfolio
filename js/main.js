@@ -378,6 +378,11 @@ function initContactForm() {
                 formMessage.style.display = 'block';
             }
 
+              // AUTO HIDE message after 4 seconds
+              setTimeout(() => {
+                formMessage.style.display = 'none';
+            }, 4000);
+
             submitBtn.disabled = false;
             btnText.style.display = 'inline-block';
             btnLoader.style.display = 'none';
@@ -386,6 +391,11 @@ function initContactForm() {
             formMessage.innerHTML = '<i class="fas fa-exclamation-circle"></i> An error occurred. Please try again.';
             formMessage.className = 'form-message error';
             formMessage.style.display = 'block';
+
+              // AUTO HIDE message after 4 seconds
+              setTimeout(() => {
+                formMessage.style.display = 'none';
+            }, 4000);
 
             submitBtn.disabled = false;
             btnText.style.display = 'inline-block';
