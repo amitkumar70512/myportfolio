@@ -357,27 +357,22 @@ function initContactForm() {
             message: document.getElementById('message').value
         };
         
-        // For static site, you can integrate with services like:
-        // - Formspree (https://formspree.io/)
-        // - EmailJS (https://www.emailjs.com/)
-        // - Netlify Forms
-        // - GitHub Issues API
-        
+    
         console.log('Form submitted:', formData);
         alert('Thank you for your message! I will get back to you soon.');
         form.reset();
         
         // Example with Formspree:
-        // fetch('https://formspree.io/f/YOUR_FORM_ID', {
-        //     method: 'POST',
-        //     body: JSON.stringify(formData),
-        //     headers: { 'Content-Type': 'application/json' }
-        // }).then(response => {
-        //     if (response.ok) {
-        //         alert('Message sent successfully!');
-        //         form.reset();
-        //     }
-        // });
+        fetch('https://formspree.io/f/mdkqdqpg', {
+            method: 'POST',
+            body: JSON.stringify(formData),
+            headers: { 'Content-Type': 'application/json' }
+        }).then(response => {
+            if (response.ok) {
+                alert('Message sent successfully!');
+                form.reset();
+            }
+        });
     });
 }
 
