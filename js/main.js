@@ -346,6 +346,10 @@ function loadTestimonials() {
 // ===== Contact Form =====
 function initContactForm() {
     const form = document.getElementById('contactForm');
+    const formMessage = document.getElementById('formMessage');
+    const submitBtn = document.getElementById('submitBtn');
+    const btnText = submitBtn.querySelector('.btn-text');
+    const btnLoader = submitBtn.querySelector('.btn-loader');
     
     form.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -357,11 +361,12 @@ function initContactForm() {
             message: document.getElementById('message').value
         };
         
+        // Show loading state
+        submitBtn.disabled = true;
+        btnText.style.display = 'none';
+        btnLoader.style.display = 'inline-block';
+        formMessage.style.display = 'none';
     
-        console.log('Form submitted:', formData);
-        alert('Thank you for your message! I will get back to you soon.');
-        form.reset();
-        
         // Example with Formspree:
         fetch('https://formspree.io/f/mdkqdqpg', {
             method: 'POST',
@@ -369,9 +374,25 @@ function initContactForm() {
             headers: { 'Content-Type': 'application/json' }
         }).then(response => {
             if (response.ok) {
-                alert('Message sent successfully!');
+                formMessage.innerHTML = '<i class="fas fa-check-circle"></i> Message sent successfully!';
+                formMessage.className = 'form-message success';
+                formMessage.style.display = 'block';
                 form.reset();
+            } else {
+                formMessage.innerHTML = '<i class="fas fa-exclamation-circle"></i> Failed to send message. Please try again.';
+                formMessage.className = 'form-message error';
+                formMessage.style.display = 'block';
             }
+            submitBtn.disabled = false;
+            btnText.style.display = 'inline-block';
+            btnLoader.style.display = 'none';
+        }).catch(error => {
+            formMessage.innerHTML = '<i class="fas fa-exclamation-circle"></i> An error occurred. Please try again.';
+            formMessage.className = 'form-message error';
+            formMessage.style.display = 'block';
+            submitBtn.disabled = false;
+            btnText.style.display = 'inline-block';
+            btnLoader.style.display = 'none';
         });
     });
 }
